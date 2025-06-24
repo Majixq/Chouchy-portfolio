@@ -1,0 +1,23 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # กำหนดให้รันเมื่อมีการ push ไปที่ branch 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # อนุญาตให้ workflow เขียนไฟล์ได้ (จำเป็นสำหรับการ deploy)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # ดึงโค้ดจาก repository
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # ใช้ action สำหรับ deploy ไปยัง GitHub Pages
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # ใช้ token ที่ GitHub สร้างให้โดยอัตโนมัติ
+          publish_dir: ./ # ระบุโฟลเดอร์ที่จะ deploy (คือโฟลเดอร์ root ของโปรเจกต์)
+        
